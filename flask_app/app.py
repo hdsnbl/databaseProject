@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///games.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
 db = SQLAlchemy(app)
 
 # Define Game model
