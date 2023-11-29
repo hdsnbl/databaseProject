@@ -4,6 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+Installs:
+
+### `npm install react react-bootstrap axios react-scripts react-dom bootstrap @auth0/auth0-react react-color react-router-dom js-cookie`
+
+
 In the project directory, you can run:
 
 ### `npm start`
