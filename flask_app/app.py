@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:100901huds@localhost/database project'
 db = SQLAlchemy(app)
 
 # Define Game model
@@ -109,6 +110,7 @@ def get_user_by_id(user_id):
 # API endpoint to create a new review
 @app.route('/reviews', methods=['POST'])
 def create_review():
+    # print("reached: get all games")
     data = request.get_json()
     new_review = Review(rating=data['rating'], comments=data['comments'], game_id=data['game_id'], user_id=data['user_id'])
     db.session.add(new_review)
