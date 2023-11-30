@@ -2,11 +2,11 @@
 
 Hudson: username: hdsnbl, ID: 115823910
 
-Long: username: , ID: 
+Long: username: longta3110, ID: 104021619
 
 ## Link to project's demo video:
 <!-- Put link here -->
-Youtube video: [http://localhost:3000]  
+[Youtube video](http://localhost:3000)
 
 ## Installation
 
@@ -36,7 +36,7 @@ npm install react react-bootstrap axios react-scripts react-dom bootstrap @auth0
 
 In the project directory, you can run:
 
-### `npm start`
+`npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
