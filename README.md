@@ -1,3 +1,13 @@
+## GitHub Usernames and IDs
+
+Hudson: username: hdsnbl, ID: 115823910
+
+Long: username: , ID: 
+
+## Link to project's demo video:
+<!-- Put link here -->
+Youtube video: [http://localhost:3000]  
+
 ## Installation
 
 Clone the repository:
