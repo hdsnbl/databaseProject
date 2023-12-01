@@ -4,9 +4,11 @@ import { Col, Row, Card, Form, Button } from 'react-bootstrap';
 // import Cookies from 'js-cookie';
 import axios from 'axios';
 import './App.css';
-import AddToFavorites from './CRUD/addToFavorites';
 import GameList from './gameList';
 import GetAllReviews from './CRUD/getReviews';
+import GetAllFavorites from './CRUD/getAllFavorites';
+import GetAllUsers from './CRUD/getAllUsers';
+import GetGameById from './CRUD/getGameById';
 
 const flaskUrl = "http://127.0.0.1:5000";
 // const flaskUrl = "localhost:3000";
@@ -15,6 +17,7 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      selectedGameId: null,
       user: {
         id: 9,  // Replace with the actual user ID
         username: "User1",  // Replace with the actual username
@@ -22,8 +25,12 @@ class App extends React.Component{
       },
     };
   }
+  handleInputChange = (e) => {
+    this.setState({ selectedGameId: e.target.value });
+  };
 
   render(){
+    const { selectedGameId } = this.state;
 
     return (
     
@@ -37,6 +44,20 @@ class App extends React.Component{
               </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
                 <GetAllReviews flaskUrl={flaskUrl}/>
+                <GetAllFavorites flaskUrl={flaskUrl}/>
+                {/* <GetAllUsers flaskUrl={flaskUrl} /> */}
+                {/* Something wrong with the GetAllUsers but I cannot figure it out */}
+                
+              </Col>
+              <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
+              <div>
+                <label>
+                  Enter Game ID:
+                  <input type="number" value={selectedGameId || ''} onChange={this.handleInputChange} />
+                </label>
+                <button onClick={() => this.setState({ selectedGameId })}>Search</button>
+              </div>
+              {selectedGameId && <GetGameById flaskUrl={flaskUrl} gameId={selectedGameId} />}
               </Col>
               <Col style={{paddingLeft: '0', paddingRight: '0' }}>
                 <div className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>

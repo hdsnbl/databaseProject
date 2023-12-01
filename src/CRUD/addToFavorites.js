@@ -18,9 +18,9 @@ const AddToFavorites = ({ flaskUrl, gameId, userId }) => {
   };
 
   return (
-    <div>
-      <button onClick={handleAddToFavorites}>Add to Favorites</button>
-    </div>
+    <form onSubmit={handleAddToFavorites}>
+      <button type="submit">Add to Favorites</button>
+    </form>
   );
 };
 
