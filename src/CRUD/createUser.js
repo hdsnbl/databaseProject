@@ -2,47 +2,49 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CreateUser = ({ flaskUrl }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userData, setUserData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserData({ ...userData, [name]: value });
+  };
 
   const handleCreateUser = async () => {
     try {
-      const response = await axios.post(`${flaskUrl}/users`, {
-        username,
-        email,
-        password,
-      });
-
-      console.log(response.data.message); // Log the response message
-      // You can also reset the form or update the UI as needed
+      const response = await axios.post(`${flaskUrl}/users`, userData);
+      console.log('User created successfully:', response.data);
     } catch (error) {
       console.error('Error creating user:', error);
-      // Handle the error, e.g., show an error message to the user
+      // Log the detailed Axios error
+      console.log('Axios Error Details:', error.response);
     }
+
+    // Reload the page or update the UI as needed
+    window.location.reload();
   };
 
   return (
-    
-      
-    <form onSubmit={handleCreateUser}>
-      <div>
-        <h3>Create a New User:</h3>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <button type="submit">Create User</button>
+    <div>
+      <h3>Create a New User</h3>
+      <form>
+        <label>Username:</label>
+        <input type="text" name="username" value={userData.username} onChange={handleInputChange} />
+
+        <label>Email:</label>
+        <input type="email" name="email" value={userData.email} onChange={handleInputChange} />
+
+        <label>Password:</label>
+        <input type="password" name="password" value={userData.password} onChange={handleInputChange} />
+
+        <button type="button" onClick={handleCreateUser}>
+          Create User
+        </button>
+      </form>
     </div>
-  </form>
   );
 };
 

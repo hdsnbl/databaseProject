@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddToFavorites from './CRUD/addToFavorites';
-import CreateReview from './CRUD/createReview';
 
 const GameList = ({ flaskUrl, userId }) => {
   const [games, setGames] = useState([]);
@@ -28,16 +27,14 @@ const GameList = ({ flaskUrl, userId }) => {
       <h2>All Games</h2>
       <ul>
         {games.map((game) => (
-          <li key={game.id} style={{padding:"5px"}}>
+          <li key={game.gameid} style={{padding:"5px"}}>
             
             <div style={{ borderStyle: 'solid', borderColor: 'black', backgroundColor:"lightgray"}}>
               <div style={{padding:"5px", borderBottomStyle:"dotted", fontWeight:"bold"}}>
-                {game.title} - {game.developer} - {game.release_date} - {game.genre} - {game.platform}
+                {game.title} - {game.developer}  - {game.genre} -
               </div>
               
-              <AddToFavorites flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
-              <p>Create Review</p>
-              <CreateReview flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
+              <AddToFavorites flaskUrl={flaskUrl} gameId={ game.gameid } userId={ userId }/>
             </div>
           </li>
           

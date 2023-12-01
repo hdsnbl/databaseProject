@@ -5,9 +5,7 @@ const CreateGame = ({ flaskUrl }) => {
   const [gameData, setGameData] = useState({
     title: '',
     developer: '',
-    release_date: '',
     genre: '',
-    platform: '',
   });
 
   const handleInputChange = (event) => {
@@ -15,8 +13,7 @@ const CreateGame = ({ flaskUrl }) => {
     setGameData({ ...gameData, [name]: value });
   };
 
- // In createGames.js
- const handleCreateGame = async () => {
+  const handleCreateGame = async () => {
     try {
       const response = await axios.post(`${flaskUrl}/games`, gameData);
       console.log('Game created successfully:', response.data);
@@ -28,7 +25,6 @@ const CreateGame = ({ flaskUrl }) => {
 
     window.location.reload();
   };
-  
 
   return (
     <div>
@@ -40,14 +36,10 @@ const CreateGame = ({ flaskUrl }) => {
         <label>Developer:</label>
         <input type="text" name="developer" value={gameData.developer} onChange={handleInputChange} />
 
-        <label>Release Date:</label>
-        <input type="text" name="release_date" placeholder="2000-01-01" value={gameData.release_date} onChange={handleInputChange} />
-
         <label>Genre:</label>
         <input type="text" name="genre" value={gameData.genre} onChange={handleInputChange} />
 
-        <label>Platform:</label>
-        <input type="text" name="platform" value={gameData.platform} onChange={handleInputChange} />
+        {/* Removed unnecessary fields (release_date and platform) */}
 
         <button type="button" onClick={handleCreateGame}>
           Create Game

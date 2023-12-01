@@ -4,13 +4,12 @@ import { Col, Row, Card, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
 import GameList from './gameList';
-import GetAllReviews from './CRUD/getReviews';
 import GetAllFavorites from './CRUD/getAllFavorites';
-import GetAllUsers from './CRUD/getAllUsers';
 import GetGameById from './CRUD/getGameById';
 import GetUserById from './CRUD/getUserById';
 import CreateUser from './CRUD/createUser';
 import CreateGame from './CRUD/createGames'; // Import the CreateGame component
+import CreateReview from './CRUD/createReview';
 import DeleteReview from './CRUD/deleteReview';
 
 const flaskUrl = "http://127.0.0.1:5000";
@@ -21,12 +20,12 @@ class App extends React.Component {
     this.state = {
       selectedGameId: null,
       selectedUserId: null,
-      user: {
-        id: 9,  // Replace with the actual user ID
-        username: "User1",  // Replace with the actual username
-        // Add other user properties as needed
-      },
-    };
+        user: {
+          id: 1,  // Replace with the actual user ID
+          username: "User1",  // Replace with the actual username
+          // Add other user properties as needed
+        },
+      };
   }
 
   handleInputChange = (e) => {
@@ -51,12 +50,10 @@ class App extends React.Component {
                 </p>
                 <CreateUser flaskUrl={flaskUrl} />
                 <CreateGame flaskUrl={flaskUrl} /> {/* Include the CreateGame component */}
+                <CreateReview flaskUrl={flaskUrl} />
               </Col>
               <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
-              
-              <GetAllReviews flaskUrl={flaskUrl} />
               <GetAllFavorites flaskUrl={flaskUrl} />
-              <GetAllUsers flaskUrl={flaskUrl} />
               </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
               <div>

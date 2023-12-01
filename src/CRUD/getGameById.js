@@ -21,16 +21,16 @@ const GetGameById = ({ flaskUrl, gameId }) => {
 
   return (
     <div>
-      
-      <p style={{fontWeight:"bold"}}>Game Details:</p>
+      <p style={{ fontWeight: "bold" }}>Game Details:</p>
       {game ? (
         <div>
-          <p>ID: {game.id}</p>
+          <p>ID: {game.gameid}</p>
           <p>Title: {game.title}</p>
           <p>Developer: {game.developer}</p>
-          <p>Release Date: {game.release_date}</p>
+          {/* The release_date and platform fields may not exist in your backend */}
+          {/* <p>Release Date: {game.release_date}</p> */}
           <p>Genre: {game.genre}</p>
-          <p>Platform: {game.platform}</p>
+          {/* <p>Platform: {game.platform}</p> */}
           {/* Add more details as needed */}
         </div>
       ) : (

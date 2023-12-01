@@ -1,50 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const CreateReview = ({ flaskUrl }) => {
+  const [reviewData, setReviewData] = useState({
+    rating: '',
+    comments: '',
+    game_id: '',
+    user_id: '',
+  });
 
-const CreateReview = ( {flaskUrl, gameId, userId }) => {
+  const [games, setGames] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const [rating, setRating] = useState('');
-  const [comments, setComments] = useState('');
-  //const [gameId, setGameId] = useState(''); // You should get the game_id from somewhere
-  //const [userId, setUserId] = useState(''); // You should get the user_id from somewhere
+  useEffect(() => {
+    // Fetch games and users when the component mounts
+    const fetchGamesAndUsers = async () => {
+      try {
+        const gamesResponse = await axios.get(`${flaskUrl}/games`);
+        setGames(gamesResponse.data.games);
+
+        const usersResponse = await axios.get(`${flaskUrl}/users`);
+        setUsers(usersResponse.data.users);
+
+      console.log('Users:', usersResponse.data.users); 
+      } catch (error) {
+        console.error('Error fetching games and users:', error);
+      }
+    };
+
+    fetchGamesAndUsers();
+  }, [flaskUrl]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setReviewData({ ...reviewData, [name]: value });
+  };
 
   const handleCreateReview = async () => {
     try {
-      const response = await axios.post(`${flaskUrl}/reviews`, {
-        rating,
-        comments,
-        game_id: gameId,
-        user_id: userId,
-      });
-
-      console.log(response.data.message); // Log the response message
-      // You can also reset the form or update the UI as needed
+      const response = await axios.post(`${flaskUrl}/reviews`, reviewData);
+      console.log('Review created successfully:', response.data);
     } catch (error) {
       console.error('Error creating review:', error);
-      // Handle the error, e.g., show an error message to the user
+      // Log the detailed Axios error
+      console.log('Axios Error Details:', error.response);
     }
+
+    // Reload the page or update the UI as needed
+    window.location.reload();
   };
 
   return (
-    <form onSubmit={handleCreateReview}>
-      <div>
-        {/* Your form inputs go here */}
-        <label>
-          Rating:
-          <input type="number" value={rating} onChange={(e) => setRating(e.target.value)} />
-        </label>
-        <label>
-          Comments:
-          <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
-        </label>
-        {/* Add more input fields for gameId and userId if needed */}
+    <div>
+      <h3>Create a New Review</h3>
+      <form>
+        <label>Rating:</label>
+        <input type="number" name="rating" value={reviewData.rating} onChange={handleInputChange} />
 
-        {/* Button to submit the form */}
-        <button type="submit">Create Review</button>
-      </div>
-    </form>
-    
+        <label>Comments:</label>
+        <textarea name="comments" value={reviewData.comments} onChange={handleInputChange} />
+
+        <label>Game:</label>
+        <select name="game_id" value={reviewData.game_id} onChange={handleInputChange}>
+          <option value="">Select a game</option>
+          {games.map((game) => (
+            <option key={game.id} value={game.id}>
+              {game.title}
+            </option>
+          ))}
+        </select>
+
+        <label>User:</label>
+        <select name="user_id" value={reviewData.user_id} onChange={handleInputChange}>
+          <option value="">Select a user</option>
+          {users.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.Username}
+            </option>
+          ))}
+        </select>
+
+        <button type="button" onClick={handleCreateReview}>
+          Create Review
+        </button>
+      </form>
+    </div>
   );
 };
 
