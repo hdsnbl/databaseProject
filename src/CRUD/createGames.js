@@ -30,7 +30,7 @@ const handleCreateGame = async () => {
 
   return (
     <div>
-      <h2>Create a New Game</h2>
+      <h3>Create a New Game</h3>
       <form>
         <label>Title:</label>
         <input type="text" name="title" value={gameData.title} onChange={handleInputChange} />
@@ -39,7 +39,7 @@ const handleCreateGame = async () => {
         <input type="text" name="developer" value={gameData.developer} onChange={handleInputChange} />
 
         <label>Release Date:</label>
-        <input type="text" name="release_date" value={gameData.release_date} onChange={handleInputChange} />
+        <input type="text" name="release_date" placeholder="2000-01-01" value={gameData.release_date} onChange={handleInputChange} />
 
         <label>Genre:</label>
         <input type="text" name="genre" value={gameData.genre} onChange={handleInputChange} />

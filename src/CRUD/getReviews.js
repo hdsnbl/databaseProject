@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DeleteReview from './deleteReview';
 
 const GetAllReviews = ({ flaskUrl }) => {
   const [reviews, setReviews] = useState([]);
@@ -26,6 +27,7 @@ const GetAllReviews = ({ flaskUrl }) => {
         {reviews.map((review) => (
           <li key={review.id}>
             Game: {review.game_id} Rating: {review.rating}, Comments: {review.comments}
+            <DeleteReview flaskUrl={flaskUrl} reviewId={review.id}/>
             {/* Add more details as needed */}
           </li>
         ))}
