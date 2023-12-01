@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import { Col, Row, Card, Form, Button } from 'react-bootstrap';
-// import Cookies from 'js-cookie';
 import axios from 'axios';
 import './App.css';
 import GameList from './gameList';
@@ -11,11 +10,11 @@ import GetAllUsers from './CRUD/getAllUsers';
 import GetGameById from './CRUD/getGameById';
 import GetUserById from './CRUD/getUserById';
 import CreateUser from './CRUD/createUser';
+import CreateGame from './CRUD/createGames'; // Import the CreateGame component
 
 const flaskUrl = "http://127.0.0.1:5000";
-// const flaskUrl = "localhost:3000";
 
-class App extends React.Component{
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +27,7 @@ class App extends React.Component{
       },
     };
   }
+
   handleInputChange = (e) => {
     this.setState({ selectedGameId: e.target.value });
   };
@@ -35,7 +35,7 @@ class App extends React.Component{
     this.setState({ selectedUserId: e.target.value });
   };
 
-  render(){
+  render() {
     const { selectedGameId } = this.state;
     const { selectedUserId } = this.state;
 
@@ -49,6 +49,12 @@ class App extends React.Component{
                   Company Name
                 </p>
                 <CreateUser flaskUrl={flaskUrl} />
+              </Col>
+              <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
+              <CreateGame flaskUrl={flaskUrl} /> {/* Include the CreateGame component */}
+              <GetAllReviews flaskUrl={flaskUrl} />
+              <GetAllFavorites flaskUrl={flaskUrl} />
+              {/* <GetAllUsers flaskUrl={flaskUrl} /> */}
               </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
               <div>
@@ -77,14 +83,6 @@ class App extends React.Component{
 
               {/* <GetUserById flaskUrl={flaskUrl} userId={userId} /> */}
               </Col>
-              <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
-                <GetAllReviews flaskUrl={flaskUrl}/>
-                <GetAllFavorites flaskUrl={flaskUrl}/>
-                <GetAllUsers flaskUrl={flaskUrl} />
-                {/* Something wrong with the GetAllUsers but I cannot figure it out */}
-                
-              </Col>
-              
               <Col style={{paddingLeft: '0', paddingRight: '0' }}>
                 <div className="App-header" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
                   <div style={{ borderStyle: 'solid', borderColor: 'black'}}>
@@ -97,7 +95,6 @@ class App extends React.Component{
           </Container>
         </div>
     );
-
   }
 }
 

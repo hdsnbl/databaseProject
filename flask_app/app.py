@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:100901huds@localhost/database project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3110@localhost/database project'
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -57,6 +57,42 @@ class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+@app.route('/games', methods=['POST'])
+def create_game():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+
+        # Create a new game object
+        new_game = Game(
+            title=data['title'],
+            developer=data['developer'],
+            release_date=data['release_date'],
+            genre=data['genre'],
+            platform=data['platform']
+        )
+
+        # Add the new game to the database
+        db.session.add(new_game)
+        db.session.commit()
+
+        return jsonify({'message': 'Game created successfully'}), 201
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f"Error creating game: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500   
+
+# Delete a game by ID
+@app.route('/games/<int:game_id>', methods=['DELETE'])
+def delete_game(game_id):
+    game = Game.query.get(game_id)
+    if game:
+        db.session.delete(game)
+        db.session.commit()
+        return jsonify({'message': 'Game deleted successfully'})
+    else:
+        return jsonify({'message': 'Game not found'}), 404
 
 # API endpoint to get all games
 @app.route('/games', methods=['GET'])
@@ -162,6 +198,41 @@ def get_all_favorites():
     favorites = Favorites.query.all()
     favorites_list = [{'id': favorite.id, 'game_id': favorite.game_id, 'user_id': favorite.user_id} for favorite in favorites]
     return jsonify({'favorites': favorites_list})
+
+# Delete a review by ID
+@app.route('/reviews/<int:review_id>', methods=['DELETE'])
+def delete_review(review_id):
+    review = Review.query.get(review_id)
+    if review:
+        db.session.delete(review)
+        db.session.commit()
+        return jsonify({'message': 'Review deleted successfully'})
+    else:
+        return jsonify({'message': 'Review not found'}), 404
+    
+# Delete a favorite by ID
+@app.route('/favorites/<int:favorite_id>', methods=['DELETE'])
+def delete_favorite(favorite_id):
+    favorite = Favorites.query.get(favorite_id)
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({'message': 'Favorite deleted successfully'})
+    else:
+        return jsonify({'message': 'Favorite not found'}), 404
+    
+# Delete a user by ID
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'})
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
