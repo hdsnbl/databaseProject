@@ -22,9 +22,8 @@ class App extends React.Component {
       selectedGameId: null,
       selectedUserId: null,
       user: {
-        id: 9,  // Replace with the actual user ID
+        id: 16,  // Replace with the actual user ID
         username: "User1",  // Replace with the actual username
-        // Add other user properties as needed
       },
     };
   }
