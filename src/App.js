@@ -8,6 +8,7 @@ import GetAllReviews from './CRUD/getReviews';
 import GetAllFavorites from './CRUD/getAllFavorites';
 import GetAllUsers from './CRUD/getAllUsers';
 import GetGameById from './CRUD/getGameById';
+import CreateUser from './CRUD/createUser';
 import CreateGame from './CRUD/createGames'; // Import the CreateGame component
 
 const flaskUrl = "http://127.0.0.1:5000";
@@ -33,23 +34,21 @@ class App extends React.Component {
     const { selectedGameId } = this.state;
 
     return (
-      <div className="App" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Container fluid={true} style={{ flex: '1' }}>
-          <Row>
-            <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
-              <p style={{ fontWeight: "bold", fontSize: "25px" }}>
-                Company Name
-              </p>
-            </Col>
-            <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
-              <CreateGame flaskUrl={flaskUrl} /> {/* Include the CreateGame component */}
-              <GetAllReviews flaskUrl={flaskUrl} />
-              <GetAllFavorites flaskUrl={flaskUrl} />
-              {/* <GetAllUsers flaskUrl={flaskUrl} /> */}
-              {/* Something wrong with the GetAllUsers but I cannot figure it out */}
-            </Col>
-            <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
+    
+      <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Container fluid={true} style={{flex: '1' }}>
+            <Row >
+              <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
+                <p style={{fontWeight: "bold", fontSize:"25px"}}>
+                  Company Name
+                </p>
+                <CreateUser flaskUrl={flaskUrl} />
+              </Col>
+              <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
               <div>
+                <div style={{fontWeight:"bold", padding: "5px", fontSize:"20px"}}>
+                Search game by ID
+                </div>
                 <label>
                   Enter Game ID:
                   <input type="number" value={selectedGameId || ''} onChange={this.handleInputChange} />
@@ -57,17 +56,18 @@ class App extends React.Component {
                 <button onClick={() => this.setState({ selectedGameId })}>Search</button>
               </div>
               {selectedGameId && <GetGameById flaskUrl={flaskUrl} gameId={selectedGameId} />}
-            </Col>
-            <Col style={{ paddingLeft: '0', paddingRight: '0' }}>
-              <div className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
-                <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray' }}>
-                  <GameList flaskUrl={flaskUrl} userId={this.state.user.id} />
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+              </Col>
+              <Col style={{paddingLeft: '0', paddingRight: '0' }}>
+                <div className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
+                  <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray'}}>
+                    <GameList flaskUrl={flaskUrl} userId={this.state.user.id}/>
+                  </div>
+                </div>    
+              </Col>
+              
+            </Row>
+          </Container>
+        </div>
     );
   }
 }

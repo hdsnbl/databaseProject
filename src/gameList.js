@@ -25,7 +25,7 @@ const GameList = ({ flaskUrl, userId }) => {
 
   return (
     <div>
-      <h2>Games</h2>
+      <h2>All Games</h2>
       <ul>
         {games.map((game) => (
           <li key={game.id}>
