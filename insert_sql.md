@@ -14,6 +14,8 @@ VALUES
   ('User3', 'user3@example.com', 'password3'),
   ('User4', 'user4@example.com', 'password4');
 
+-- IMPORTANT: MUST DO JUST THE user AND game TABLE DATA FIRST BEFORE DOING THE review AND favorites TABLE DATA
+
 -- Sample data for the review table
 INSERT INTO review (rating, comments, game_id, user_id)
 VALUES
