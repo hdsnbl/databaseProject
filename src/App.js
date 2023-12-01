@@ -9,6 +9,7 @@ import GetAllReviews from './CRUD/getReviews';
 import GetAllFavorites from './CRUD/getAllFavorites';
 import GetAllUsers from './CRUD/getAllUsers';
 import GetGameById from './CRUD/getGameById';
+import GetUserById from './CRUD/getUserById';
 import CreateUser from './CRUD/createUser';
 
 const flaskUrl = "http://127.0.0.1:5000";
@@ -19,6 +20,7 @@ class App extends React.Component{
     super(props);
     this.state = {
       selectedGameId: null,
+      selectedUserId: null,
       user: {
         id: 9,  // Replace with the actual user ID
         username: "User1",  // Replace with the actual username
@@ -29,9 +31,13 @@ class App extends React.Component{
   handleInputChange = (e) => {
     this.setState({ selectedGameId: e.target.value });
   };
+  handleInputChangeUser = (e) => {
+    this.setState({ selectedUserId: e.target.value });
+  };
 
   render(){
     const { selectedGameId } = this.state;
+    const { selectedUserId } = this.state;
 
     return (
     
@@ -56,6 +62,20 @@ class App extends React.Component{
                 <button onClick={() => this.setState({ selectedGameId })}>Search</button>
               </div>
               {selectedGameId && <GetGameById flaskUrl={flaskUrl} gameId={selectedGameId} />}
+
+              <div>
+                <div style={{fontWeight:"bold", padding: "5px", fontSize:"20px"}}>
+                Search user by ID
+                </div>
+                <label>
+                  Enter user ID:
+                  <input type="number" value={selectedUserId || ''} onChange={this.handleInputChangeUser} />
+                </label>
+                <button onClick={() => this.setState({ selectedUserId })}>Search</button>
+              </div>
+              {selectedUserId && <GetUserById flaskUrl={flaskUrl} userId={selectedUserId} />}
+
+              {/* <GetUserById flaskUrl={flaskUrl} userId={userId} /> */}
               </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
                 <GetAllReviews flaskUrl={flaskUrl}/>
