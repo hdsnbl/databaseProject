@@ -16,7 +16,7 @@ const CreateGame = ({ flaskUrl }) => {
   };
 
  // In createGames.js
-const handleCreateGame = async () => {
+ const handleCreateGame = async () => {
     try {
       const response = await axios.post(`${flaskUrl}/games`, gameData);
       console.log('Game created successfully:', response.data);
@@ -25,6 +25,8 @@ const handleCreateGame = async () => {
       // Log the detailed Axios error
       console.log('Axios Error Details:', error.response);
     }
+
+    window.location.reload();
   };
   
 
