@@ -28,10 +28,14 @@ const GameList = ({ flaskUrl, userId }) => {
       <h2>All Games</h2>
       <ul>
         {games.map((game) => (
-          <li key={game.id}>
-            {game.title} - {game.developer} - {game.release_date} - {game.genre} - {game.platform}
-            <AddToFavorites flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
-            <div style={{ borderStyle: 'solid', borderColor: 'black', backgroundColor: 'black'}}>
+          <li key={game.id} style={{padding:"5px"}}>
+            
+            <div style={{ borderStyle: 'solid', borderColor: 'black', backgroundColor:"lightgray"}}>
+              <div style={{padding:"5px", borderBottomStyle:"dotted", fontWeight:"bold"}}>
+                {game.title} - {game.developer} - {game.release_date} - {game.genre} - {game.platform}
+              </div>
+              
+              <AddToFavorites flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
               <p>Create Review</p>
               <CreateReview flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
             </div>

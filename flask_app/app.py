@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3110@localhost/database project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:100901huds@localhost/database project'
 db = SQLAlchemy(app)
 CORS(app)
 
