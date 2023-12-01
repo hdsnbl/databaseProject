@@ -12,7 +12,10 @@ const GameList = ({ flaskUrl }) => {
         setGames(response.data.games);
       } catch (error) {
         console.error('Error fetching games:', error);
+        // Log the detailed Axios error
+        console.log('Axios Error Details:', error.response);
         // Handle the error, e.g., show an error message to the user
+        setGames([]);
       }
     };
 

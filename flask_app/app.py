@@ -1,68 +1,89 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS  
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:100901huds@localhost/database project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3110@localhost/projectdatabase'
 db = SQLAlchemy(app)
+CORS(app)
 
-# Define Game model
+favorites_association = db.Table(
+    'favorites_association',
+    db.Column('game_id', db.Integer, db.ForeignKey('game.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
+
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     developer = db.Column(db.String(50), nullable=False)
-    release_date = db.Column(db.Date, nullable=False)  # Assume release_date is a date field
+    release_date = db.Column(db.Date, nullable=False)
     genre = db.Column(db.String(20), nullable=False)
     platform = db.Column(db.String(20), nullable=False)
 
-    reviews = db.relationship('Review', backref='game', lazy=True)
+    # Updated reviews and favorites relationships
+    reviews = db.relationship('Review', back_populates='game', lazy=True)
 
-# Define User model
+    # Many-to-many relationship with favorites
+    favorites = db.relationship('User', secondary=favorites_association, back_populates='favorite_games')
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(60), nullable=False)
-    #relation
-    reviews = db.relationship('Review', backref='user', lazy=True)
-    favorites = db.relationship('Favorites', backref='user', lazy=True)
 
-# Define Review model
+  # Updated reviews and favorites relationships
+    reviews = db.relationship('Review', back_populates='user', lazy=True)
+
+    # Many-to-many relationship with favorites
+    favorite_games = db.relationship('Game', secondary=favorites_association, back_populates='favorites')
+
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     comments = db.Column(db.Text)
+
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #relation
-    game = db.relationship('Game', backref=db.backref('reviews', lazy=True))
-    user = db.relationship('User', backref=db.backref('reviews', lazy=True))
 
+    # Updated game and user relationships
+    game = db.relationship('Game', back_populates='reviews')
+    user = db.relationship('User', back_populates='reviews')
 
-# Define Favorites model
 class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #relation
-    user = db.relationship('User', backref=db.backref('favorites', lazy=True))
-    game = db.relationship('Game', backref=db.backref('favorites', lazy=True))
 
 # API endpoint to get all games
 @app.route('/games', methods=['GET'])
 def get_all_games():
-    games = Game.query.all()
-    game_list = []
-    for game in games:
-        game_list.append({
-            'id': game.id,
-            'title': game.title,
-            'developer': game.developer,
-            'release_date': game.release_date,
-            'genre': game.genre,
-            'platform': game.platform
-        })
-    return jsonify({'games': game_list})
+    try:
+        games = Game.query.all()
+
+        if not games:
+            # If no games found, return an empty array or a custom message
+            return jsonify({'games': []})
+
+        game_list = []
+        for game in games:
+            game_list.append({
+                'id': game.id,
+                'title': game.title,
+                'developer': game.developer,
+                'release_date': game.release_date,
+                'genre': game.genre,
+                'platform': game.platform
+            })
+        return jsonify({'games': game_list})
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f"Error fetching games: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 
 # API endpoint to get a specific game by ID
 @app.route('/games/<int:game_id>', methods=['GET'])
@@ -142,6 +163,5 @@ def get_all_favorites():
     favorites_list = [{'id': favorite.id, 'game_id': favorite.game_id, 'user_id': favorite.user_id} for favorite in favorites]
     return jsonify({'favorites': favorites_list})
 
-if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
