@@ -21,7 +21,7 @@ const GetAllUsers = ({ flaskUrl }) => {
 
   return (
     <div>
-      <h2>All Users</h2>
+      <h3>All Users</h3>
       <ul>
         {users.map((user) => (
           <li key={user.id}>
