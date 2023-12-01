@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-const CreateReview = ( {flaskUrl }) => {
+const CreateReview = ( {flaskUrl, gameId, userId }) => {
 
   const [rating, setRating] = useState('');
   const [comments, setComments] = useState('');
-  const [gameId, setGameId] = useState(''); // You should get the game_id from somewhere
-  const [userId, setUserId] = useState(''); // You should get the user_id from somewhere
+  //const [gameId, setGameId] = useState(''); // You should get the game_id from somewhere
+  //const [userId, setUserId] = useState(''); // You should get the user_id from somewhere
 
   const handleCreateReview = async () => {
     try {
@@ -27,21 +27,24 @@ const CreateReview = ( {flaskUrl }) => {
   };
 
   return (
-    <div>
-      {/* Your form inputs go here */}
-      <label>
-        Rating:
-        <input type="number" value={rating} onChange={(e) => setRating(e.target.value)} />
-      </label>
-      <label>
-        Comments:
-        <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
-      </label>
-      {/* Add more input fields for gameId and userId if needed */}
+    <form onSubmit={handleCreateReview}>
+      <div>
+        {/* Your form inputs go here */}
+        <label>
+          Rating:
+          <input type="number" value={rating} onChange={(e) => setRating(e.target.value)} />
+        </label>
+        <label>
+          Comments:
+          <input type="text" value={comments} onChange={(e) => setComments(e.target.value)} />
+        </label>
+        {/* Add more input fields for gameId and userId if needed */}
 
-      {/* Button to submit the form */}
-      <button onClick={handleCreateReview}>Create Review</button>
-    </div>
+        {/* Button to submit the form */}
+        <button type="submit">Create Review</button>
+      </div>
+    </form>
+    
   );
 };
 
