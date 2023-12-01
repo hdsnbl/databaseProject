@@ -86,8 +86,8 @@ class App extends React.Component{
               </Col>
               
               <Col style={{paddingLeft: '0', paddingRight: '0' }}>
-                <div className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
-                  <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray'}}>
+                <div className="App-header" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
+                  <div style={{ borderStyle: 'solid', borderColor: 'black'}}>
                     <GameList flaskUrl={flaskUrl} userId={this.state.user.id}/>
                   </div>
                 </div>    
