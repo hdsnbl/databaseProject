@@ -6,6 +6,7 @@ import axios from 'axios';
 import './App.css';
 import AddToFavorites from './CRUD/addToFavorites';
 import GameList from './gameList';
+import GetAllReviews from './CRUD/getReviews';
 
 const flaskUrl = "http://127.0.0.1:5000";
 // const flaskUrl = "localhost:3000";
@@ -24,26 +25,6 @@ class App extends React.Component{
 
   render(){
 
-    // handleSubmit = async (e) => {
-    //   e.preventDefault();
-    //   const { name, color } = this.state;
-  
-    //   const data = {
-    //     name,
-    //     color,
-    //   };
-  
-    //   try {
-    //     const response = await axios.post(`${this.props.flaskUrl}/categories/${this.props.userId}`, data);
-    //     this.props.onCategoryAdded(response.data.category_id);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-  
-    //   this.props.modalOpen();
-    //   window.location.reload();
-    // };
-
     return (
     
       <div className="App" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -54,21 +35,17 @@ class App extends React.Component{
                   Company Name
                 </p>
               </Col>
+              <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
+                <GetAllReviews flaskUrl={flaskUrl}/>
+              </Col>
               <Col style={{paddingLeft: '0', paddingRight: '0' }}>
                 <div className="App-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
-                  <div>
-                    
-                    {/* <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray'}}>
-                      <AddToFavorites flaskUrl={flaskUrl} />    
-                      gameId={ provide the game_id } userId={ provide the user_id }     add this to the AddToFavorites once you know how to get game_id and user_id
-                    </div> */}
-                    <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray'}}>
-                      <GameList flaskUrl={flaskUrl} userId={this.state.user.id}/>
-                    </div>
-                    
+                  <div style={{ borderStyle: 'solid', borderColor: 'gray', backgroundColor: 'gray'}}>
+                    <GameList flaskUrl={flaskUrl} userId={this.state.user.id}/>
                   </div>
                 </div>    
               </Col>
+              
             </Row>
           </Container>
         </div>
