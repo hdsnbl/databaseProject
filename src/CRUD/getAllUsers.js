@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DeleteUser from './deleteUser';
 
 const GetAllUsers = ({ flaskUrl }) => {
   const [users, setUsers] = useState([]);
@@ -26,6 +27,7 @@ const GetAllUsers = ({ flaskUrl }) => {
         {users.map((user) => (
           <li key={user.id}>
             User ID: {user.id}, Username: {user.username}, Email: {user.email}
+            <DeleteUser flaskUrl={flaskUrl} userId={user.id}/>
             {/* Add more details as needed */}
           </li>
         ))}

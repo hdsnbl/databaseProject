@@ -20,7 +20,6 @@ const DeleteReview = ({ flaskUrl, reviewId }) => {
     // </div>
     <form onSubmit={handleDeleteReview}>
     <div>
-      {/* Button to delete the review */}
       <button type="submit">Delete Review</button>
     </div>
   </form>

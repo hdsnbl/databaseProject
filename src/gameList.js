@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddToFavorites from './CRUD/addToFavorites';
 import CreateReview from './CRUD/createReview';
+import DeleteGame from './CRUD/deleteGame';
 
 const GameList = ({ flaskUrl, userId }) => {
   const [games, setGames] = useState([]);
@@ -36,7 +37,8 @@ const GameList = ({ flaskUrl, userId }) => {
               </div>
               
               <AddToFavorites flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
-              <p>Create Review</p>
+              <DeleteGame flaskUrl={flaskUrl} gameId={game.id}/>
+              <p style={{fontWeight:"bold"}}>Create Review:</p>
               <CreateReview flaskUrl={flaskUrl} gameId={ game.id } userId={ userId }/>
             </div>
           </li>

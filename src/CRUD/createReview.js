@@ -41,7 +41,7 @@ const CreateReview = ( {flaskUrl, gameId, userId }) => {
         {/* Add more input fields for gameId and userId if needed */}
 
         {/* Button to submit the form */}
-        <button type="submit">Create Review</button>
+        <button type="submit" >Create Review</button>
       </div>
     </form>
     

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DeleteFavorite from './deleteFavorite';
 
 const GetAllFavorites = ({ flaskUrl }) => {
   const [favorites, setFavorites] = useState([]);
@@ -26,6 +27,7 @@ const GetAllFavorites = ({ flaskUrl }) => {
         {favorites.map((favorite) => (
           <li key={favorite.id}>
             Game ID: {favorite.game_id}, User ID: {favorite.user_id}
+            <DeleteFavorite flaskUrl={flaskUrl} favoriteId={favorite.id} />
             {/* Add more details as needed */}
           </li>
         ))}

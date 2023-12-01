@@ -11,7 +11,7 @@ import GetGameById from './CRUD/getGameById';
 import GetUserById from './CRUD/getUserById';
 import CreateUser from './CRUD/createUser';
 import CreateGame from './CRUD/createGames'; // Import the CreateGame component
-import DeleteReview from './CRUD/deleteReview';
+
 
 const flaskUrl = "http://127.0.0.1:5000";
 

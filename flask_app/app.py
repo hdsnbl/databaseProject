@@ -88,6 +88,17 @@ def create_game():
 def delete_game(game_id):
     game = Game.query.get(game_id)
     if game:
+        # Delete associated reviews
+        reviews = Review.query.filter_by(game_id=game_id).all()
+        for review in reviews:
+            db.session.delete(review)
+
+        # Delete associated favorites
+        favorites = Favorites.query.filter_by(game_id=game_id).all()
+        for favorite in favorites:
+            db.session.delete(favorite)
+
+        # Finally, delete the game
         db.session.delete(game)
         db.session.commit()
         return jsonify({'message': 'Game deleted successfully'})
@@ -226,6 +237,16 @@ def delete_favorite(favorite_id):
 def delete_user(user_id):
     user = User.query.get(user_id)
     if user:
+        # Delete associated reviews and favorites
+        reviews = Review.query.filter_by(user_id=user_id).all()
+        for review in reviews:
+            db.session.delete(review)
+
+        favorites = Favorites.query.filter_by(user_id=user_id).all()
+        for favorite in favorites:
+            db.session.delete(favorite)
+
+        # Delete the user
         db.session.delete(user)
         db.session.commit()
         return jsonify({'message': 'User deleted successfully'})
