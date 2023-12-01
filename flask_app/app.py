@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boxi:3110@localhost:5432/database project'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:100901huds@localhost/database project'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:3110@localhost/database project'
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -57,6 +57,42 @@ class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+@app.route('/games', methods=['POST'])
+def create_game():
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+
+        # Create a new game object
+        new_game = Game(
+            title=data['title'],
+            developer=data['developer'],
+            release_date=data['release_date'],
+            genre=data['genre'],
+            platform=data['platform']
+        )
+
+        # Add the new game to the database
+        db.session.add(new_game)
+        db.session.commit()
+
+        return jsonify({'message': 'Game created successfully'}), 201
+    except Exception as e:
+        # Log the error for debugging purposes
+        print(f"Error creating game: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500   
+
+# Delete a game by ID
+@app.route('/games/<int:game_id>', methods=['DELETE'])
+def delete_game(game_id):
+    game = Game.query.get(game_id)
+    if game:
+        db.session.delete(game)
+        db.session.commit()
+        return jsonify({'message': 'Game deleted successfully'})
+    else:
+        return jsonify({'message': 'Game not found'}), 404
 
 # API endpoint to get all games
 @app.route('/games', methods=['GET'])
