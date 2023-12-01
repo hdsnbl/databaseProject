@@ -50,6 +50,12 @@ class App extends React.Component {
                 </p>
                 <CreateUser flaskUrl={flaskUrl} />
               </Col>
+              <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
+              <CreateGame flaskUrl={flaskUrl} /> {/* Include the CreateGame component */}
+              <GetAllReviews flaskUrl={flaskUrl} />
+              <GetAllFavorites flaskUrl={flaskUrl} />
+              {/* <GetAllUsers flaskUrl={flaskUrl} /> */}
+              </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
               <div>
                 <div style={{fontWeight:"bold", padding: "5px", fontSize:"20px"}}>

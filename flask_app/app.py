@@ -199,5 +199,40 @@ def get_all_favorites():
     favorites_list = [{'id': favorite.id, 'game_id': favorite.game_id, 'user_id': favorite.user_id} for favorite in favorites]
     return jsonify({'favorites': favorites_list})
 
+# Delete a review by ID
+@app.route('/reviews/<int:review_id>', methods=['DELETE'])
+def delete_review(review_id):
+    review = Review.query.get(review_id)
+    if review:
+        db.session.delete(review)
+        db.session.commit()
+        return jsonify({'message': 'Review deleted successfully'})
+    else:
+        return jsonify({'message': 'Review not found'}), 404
+    
+# Delete a favorite by ID
+@app.route('/favorites/<int:favorite_id>', methods=['DELETE'])
+def delete_favorite(favorite_id):
+    favorite = Favorites.query.get(favorite_id)
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({'message': 'Favorite deleted successfully'})
+    else:
+        return jsonify({'message': 'Favorite not found'}), 404
+    
+# Delete a user by ID
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'})
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
