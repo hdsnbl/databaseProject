@@ -47,7 +47,7 @@ const CreateReview = ({ flaskUrl }) => {
     }
 
     // Reload the page or update the UI as needed
-    window.location.reload();
+    //window.location.reload();
   };
 
   return (
@@ -75,7 +75,7 @@ const CreateReview = ({ flaskUrl }) => {
           <option value="">Select a user</option>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
-              {user.Username}
+              {user.username}
             </option>
           ))}
         </select>

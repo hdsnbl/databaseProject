@@ -155,8 +155,8 @@ def create_review():
     new_review = Review(
         rating=data['rating'],
         comments=data['comments'],
-        game_id=data['game_id'],
-        user_id=data['user_id']
+        gameid=data['game_id'],
+        userid=data['user_id']
     )
     db.session.add(new_review)
     db.session.commit()
@@ -165,10 +165,16 @@ def create_review():
 # Endpoint for Getting All Reviews
 @app.route('/reviews', methods=['GET'])
 def get_all_reviews():
-    reviews = Review.query.all()
-    review_list = [{'id': review.reviewid, 'rating': review.rating, 'comments': review.comments,
-                    'game_id': review.game_id, 'user_id': review.user_id} for review in reviews]
-    return jsonify({'reviews': review_list})
+    try:
+        reviews = Review.query.all()
+        review_list = [{'id': review.reviewid, 'rating': review.rating, 'comments': review.comments,
+                        'game_id': review.gameid, 'user_id': review.userid} for review in reviews]
+        return jsonify({'reviews': review_list})
+    except Exception as e:
+        # Print the exception to the console for debugging
+        print(f"Error in get_all_reviews endpoint: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 
 # Endpoint for Adding to Favorites
 @app.route('/favorites', methods=['POST'])

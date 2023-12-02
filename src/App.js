@@ -11,6 +11,7 @@ import CreateUser from './CRUD/createUser';
 import CreateGame from './CRUD/createGames'; // Import the CreateGame component
 import CreateReview from './CRUD/createReview';
 import DeleteReview from './CRUD/deleteReview';
+import GetAllReviews from './CRUD/getAllReviews';
 
 const flaskUrl = "http://127.0.0.1:5000";
 
@@ -54,6 +55,7 @@ class App extends React.Component {
               </Col>
               <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
               <GetAllFavorites flaskUrl={flaskUrl} />
+              <GetAllReviews flaskUrl={flaskUrl} />
               </Col>
               <Col style={{paddingLeft: '20', paddingRight: '20' ,borderStyle:'solid'}}>
               <div>
