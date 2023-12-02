@@ -77,6 +77,17 @@ def create_game():
 def delete_game(game_id):
     game = Game.query.get(game_id)
     if game:
+        # Delete associated reviews
+        reviews = Review.query.filter_by(game_id=game_id).all()
+        for review in reviews:
+            db.session.delete(review)
+
+        # Delete associated favorites
+        favorites = Favorites.query.filter_by(game_id=game_id).all()
+        for favorite in favorites:
+            db.session.delete(favorite)
+
+        # Finally, delete the game
         db.session.delete(game)
         db.session.commit()
         return jsonify({'message': 'Game deleted successfully'})
@@ -180,17 +191,33 @@ def get_all_reviews():
 @app.route('/favorites', methods=['POST'])
 def add_to_favorites():
     data = request.get_json()
-    new_favorite = Favorites(game_id=data['game_id'], user_id=data['user_id'])
+    new_favorite = Favorites(gameid=data['game_id'], userid=data['user_id'])
     db.session.add(new_favorite)
     db.session.commit()
     return jsonify({'message': 'Game added to favorites successfully'}), 201
 
-# Endpoint for Getting All Favorites
+# Endpoint for Getting All Favorites with Game Names
 @app.route('/favorites', methods=['GET'])
 def get_all_favorites():
-    favorites = Favorites.query.all()
-    favorites_list = [{'id': favorite.favoriteid, 'game_id': favorite.game_id, 'user_id': favorite.user_id} for favorite in favorites]
-    return jsonify({'favorites': favorites_list})
+    try:
+        # Join the Favorites and Game tables to get game names
+        favorites = db.session.query(Favorites, Game.title.label('game_title')).join(Game, Favorites.gameid == Game.gameid).all()
+
+        # Build the response
+        favorites_list = [
+            {
+                'id': favorite.Favorites.favoriteid,
+                'game_id': favorite.Favorites.gameid,
+                'user_id': favorite.Favorites.userid,
+                'game_title': favorite.game_title
+            }
+            for favorite in favorites
+        ]
+
+        return jsonify({'favorites': favorites_list})
+    except Exception as e:
+        print(f"Error fetching favorites: {str(e)}")
+        return jsonify({'error': 'Internal Server Error'}), 69
 
 # Endpoint for Deleting Reviews by ID
 @app.route('/reviews/<int:review_id>', methods=['DELETE'])
@@ -199,7 +226,10 @@ def delete_review(review_id):
     if review:
         db.session.delete(review)
         db.session.commit()
-        return
+        return {'message': 'Review deleted successfully'}, 204
+    else:
+        return {'message': 'Review not found'}, 404
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

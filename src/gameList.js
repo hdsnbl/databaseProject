@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AddToFavorites from './CRUD/addToFavorites';
 
 const GameList = ({ flaskUrl, userId }) => {
   const [games, setGames] = useState([]);
@@ -31,10 +30,9 @@ const GameList = ({ flaskUrl, userId }) => {
             
             <div style={{ borderStyle: 'solid', borderColor: 'black', backgroundColor:"lightgray"}}>
               <div style={{padding:"5px", borderBottomStyle:"dotted", fontWeight:"bold"}}>
-                {game.title} - {game.developer}  - {game.genre} -
+                {game.title} - {game.developer}  - {game.genre} 
               </div>
               
-              <AddToFavorites flaskUrl={flaskUrl} gameId={ game.gameid } userId={ userId }/>
             </div>
           </li>
           

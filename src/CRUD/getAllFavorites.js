@@ -25,8 +25,7 @@ const GetAllFavorites = ({ flaskUrl }) => {
       <ul>
         {favorites.map((favorite) => (
           <li key={favorite.id}>
-            Game ID: {favorite.game_id}, User ID: {favorite.user_id}
-            {/* Add more details as needed */}
+           Game Name: {favorite.game_title} , Game ID: {favorite.game_id}, User ID: {favorite.user_id}
           </li>
         ))}
       </ul>

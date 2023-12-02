@@ -6,24 +6,17 @@ const DeleteReview = ({ flaskUrl, reviewId }) => {
     try {
       const response = await axios.delete(`${flaskUrl}/reviews/${reviewId}`);
       console.log(response.data.message); // Log the response message
-      // You can also update the UI as needed
     } catch (error) {
       console.error('Error deleting review:', error);
-      // Handle the error, e.g., show an error message to the user
     }
   };
 
   return (
-    // <div>
-    //   {/* Button to delete the review */}
-    //   <button onClick={handleDeleteReview}>Delete Review</button>
-    // </div>
     <form onSubmit={handleDeleteReview}>
-    <div>
-      {/* Button to delete the review */}
-      <button type="submit">Delete Review</button>
-    </div>
-  </form>
+      <div>
+        <button type="submit" onClick={() => window.confirm("Are you sure you want to delete this review?")}>Delete Review</button>
+      </div>
+    </form>
   );
 };
 

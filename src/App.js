@@ -4,6 +4,7 @@ import { Col, Row, Card, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import './App.css';
 import GameList from './gameList';
+import UserList from './userlist'
 import GetAllFavorites from './CRUD/getAllFavorites';
 import GetGameById from './CRUD/getGameById';
 import GetUserById from './CRUD/getUserById';
@@ -12,6 +13,7 @@ import CreateGame from './CRUD/createGames'; // Import the CreateGame component
 import CreateReview from './CRUD/createReview';
 import DeleteReview from './CRUD/deleteReview';
 import GetAllReviews from './CRUD/getAllReviews';
+import AddToFavorites from './CRUD/addToFavorites'; // Import the AddToFavorites component
 
 const flaskUrl = "http://127.0.0.1:5000";
 
@@ -52,6 +54,7 @@ class App extends React.Component {
                 <CreateUser flaskUrl={flaskUrl} />
                 <CreateGame flaskUrl={flaskUrl} /> {/* Include the CreateGame component */}
                 <CreateReview flaskUrl={flaskUrl} />
+                <AddToFavorites flaskUrl={flaskUrl} /> 
               </Col>
               <Col style={{ paddingLeft: '20', paddingRight: '20', borderStyle: 'solid' }}>
               <GetAllFavorites flaskUrl={flaskUrl} />
@@ -87,6 +90,15 @@ class App extends React.Component {
                   <div style={{ borderStyle: 'solid', borderColor: 'black'}}>
                     <GameList flaskUrl={flaskUrl} userId={this.state.user.id}/>
                   </div>
+
+                </div>    
+              </Col>
+              <Col style={{paddingLeft: '0', paddingRight: '0' }}>
+                <div className="App-header" style={{ justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
+                  <div style={{ borderStyle: 'solid', borderColor: 'black'}}>
+                  <UserList flaskUrl={flaskUrl} />
+                  </div>
+                  
                 </div>    
               </Col>
               

@@ -64,7 +64,7 @@ const CreateReview = ({ flaskUrl }) => {
         <select name="game_id" value={reviewData.game_id} onChange={handleInputChange}>
           <option value="">Select a game</option>
           {games.map((game) => (
-            <option key={game.id} value={game.id}>
+            <option key={game.gameid} value={game.gameid}>
               {game.title}
             </option>
           ))}
