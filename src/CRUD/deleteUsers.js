@@ -5,6 +5,11 @@ const DeleteUser = ({ flaskUrl, userId }) => {
   const handleDeleteUser = async () => {
     
     try {
+      await axios.delete(`${flaskUrl}/users/${userId}/reviews`);
+      //deleting the reviews from that user
+      await axios.delete(`${flaskUrl}/users/${userId}/favorites`);
+      //deleting the favorites of that user
+
       const response = await axios.delete(`${flaskUrl}/users/${userId}`);
       console.log(response.data.message); // Log the response message
       // You can also update the UI as needed
@@ -27,7 +32,7 @@ const DeleteUser = ({ flaskUrl, userId }) => {
             <button onClick={handleDeleteUser}>Delete User</button>   
           </div>
       </form>
-      //need to delete all reviews and favorites first
+
   );
 };
 
