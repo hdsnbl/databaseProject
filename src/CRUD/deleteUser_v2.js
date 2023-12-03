@@ -27,6 +27,7 @@ const DeleteUser = ({ flaskUrl, userId }) => {
       <div>
         <button type="submit">Delete User</button>
       </div>
+    </form>
   );
 };
 
