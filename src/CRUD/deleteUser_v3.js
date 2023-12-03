@@ -4,11 +4,6 @@ import axios from 'axios';
 const DeleteUser = ({ flaskUrl, userId }) => {
   const handleDeleteUser = async () => {
     try {
-      // Delete associated reviews
-      await axios.delete(`${flaskUrl}/reviews/user/${userId}`);
-      
-      // Delete associated favorites
-      await axios.delete(`${flaskUrl}/favorites/user/${userId}`);
       
       // Finally, delete the user
       const response = await axios.delete(`${flaskUrl}/users/${userId}`);
@@ -25,7 +20,7 @@ const DeleteUser = ({ flaskUrl, userId }) => {
   return (
     <form onSubmit={handleDeleteUser}>
       <div>
-        <button type="submit">Delete User</button>
+        <button type="submit" onClick={()=>window.confirm("Are you sure you want to delete this user?")}>Delete User</button>
       </div>
     </form>
   );
