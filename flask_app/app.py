@@ -72,28 +72,6 @@ def create_game():
         print(f"Error creating game: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500   
 
-# Endpoint for Deleting Games
-@app.route('/games/<int:game_id>', methods=['DELETE'])
-def delete_game(game_id):
-    game = Game.query.get(game_id)
-    if game:
-        # Delete associated reviews
-        reviews = Review.query.filter_by(game_id=game_id).all()
-        for review in reviews:
-            db.session.delete(review)
-
-        # Delete associated favorites
-        favorites = Favorites.query.filter_by(game_id=game_id).all()
-        for favorite in favorites:
-            db.session.delete(favorite)
-
-        # Finally, delete the game
-        db.session.delete(game)
-        db.session.commit()
-        return jsonify({'message': 'Game deleted successfully'})
-    else:
-        return jsonify({'message': 'Game not found'}), 404
-
 # Endpoint for Getting All Games
 @app.route('/games', methods=['GET'])
 def get_all_games():
@@ -129,6 +107,7 @@ def get_game_by_id(game_id):
     else:
         return jsonify({'message': 'Game not found'}), 404
 
+#endpoint create users
 @app.route('/users', methods=['POST'])
 def create_user():
     try:
@@ -219,16 +198,68 @@ def get_all_favorites():
         print(f"Error fetching favorites: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 69
 
-# Endpoint for Deleting Reviews by ID
+    
+# Delete a review by ID
 @app.route('/reviews/<int:review_id>', methods=['DELETE'])
 def delete_review(review_id):
     review = Review.query.get(review_id)
     if review:
         db.session.delete(review)
         db.session.commit()
-        return {'message': 'Review deleted successfully'}, 204
+        return jsonify({'message': 'Review deleted successfully'})
     else:
-        return {'message': 'Review not found'}, 404
+        return jsonify({'message': 'Review not found'}), 404
+    
+# Delete a favorite by ID
+@app.route('/favorites/<int:favorite_id>', methods=['DELETE'])
+def delete_favorite(favorite_id):
+    favorite = Favorites.query.get(favorite_id)
+    if favorite:
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({'message': 'Favorite deleted successfully'})
+    else:
+        return jsonify({'message': 'Favorite not found'}), 404
+
+# Delete a user by ID
+@app.route('/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    if user:
+        # Delete associated reviews
+        reviews = Review.query.filter_by(user_id=user_id).all()
+        for review in reviews:
+            db.session.delete(review)
+
+        # Remove user from favorite_games relationship
+        user.favorite_games = []
+
+        # Finally, delete the user
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'User deleted successfully'})
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+# Delete a game by ID
+@app.route('/games/<int:game_id>', methods=['DELETE'])
+def delete_game(game_id):
+    game = Game.query.get(game_id)
+    if game:
+        # Delete associated reviews
+        reviews = Review.query.filter_by(game_id=game_id).all()
+        for review in reviews:
+            db.session.delete(review)
+
+        # Remove game from users relationship
+        game.users = []
+
+        # Finally, delete the game
+        db.session.delete(game)
+        db.session.commit()
+        return jsonify({'message': 'Game deleted successfully'})
+    else:
+        return jsonify({'message': 'Game not found'}), 404
 
 
 if __name__ == "__main__":

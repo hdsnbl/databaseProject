@@ -27,15 +27,11 @@ const GameList = ({ flaskUrl, userId }) => {
       <ul>
         {games.map((game) => (
           <li key={game.gameid} style={{padding:"5px"}}>
-            
-            <div style={{ borderStyle: 'solid', borderColor: 'black', backgroundColor:"lightgray"}}>
-              <div style={{padding:"5px", borderBottomStyle:"dotted", fontWeight:"bold"}}>
-                {game.title} - {game.developer}  - {game.genre} 
-              </div>
-              
+           <div>
+           Game Title: <span style={{ fontWeight: "bold" }}>{game.title}</span>  -Developer: <span style={{ fontWeight: "bold" }}>{game.developer}</span> -
+           Genre: <span style={{ fontWeight: "bold" }}>{game.genre}</span>
             </div>
           </li>
-          
         ))}
       </ul>
     </div>

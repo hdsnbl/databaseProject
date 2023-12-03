@@ -15,6 +15,7 @@ import DeleteReview from './CRUD/deleteReview';
 import GetAllReviews from './CRUD/getAllReviews';
 import AddToFavorites from './CRUD/addToFavorites'; // Import the AddToFavorites component
 
+
 const flaskUrl = "http://127.0.0.1:5000";
 
 class App extends React.Component {
