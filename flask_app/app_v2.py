@@ -53,7 +53,10 @@ class Review(db.Model):
     user = db.relationship('User', back_populates='reviews')
 
 
-# Favorites model removed
+class Favorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
 @app.route('/games', methods=['POST'])
