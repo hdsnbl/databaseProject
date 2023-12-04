@@ -8,7 +8,7 @@ Kayva: username: summertale
 
 ## Link to project's demo video:
 <!-- Put link here -->
-[Youtube video](http://localhost:3000)
+https://www.youtube.com/watch?v=h3vZ9WisgXk&feature=youtu.be
 
 ## Installation
 
