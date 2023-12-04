@@ -4,6 +4,8 @@ Hudson: username: hdsnbl, ID: 115823910
 
 Long: username: longta3110, ID: 104021619
 
+Kayva: username: summertale
+
 ## Link to project's demo video:
 <!-- Put link here -->
 [Youtube video](http://localhost:3000)
